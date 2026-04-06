@@ -4,31 +4,35 @@ class CustomActionCard extends StatelessWidget {
   final Widget icon;
   final String title;
   final String? subtitle;
+  final VoidCallback? onTap;
 
   const CustomActionCard({
     super.key,
     required this.icon,
     required this.title,
     this.subtitle,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-            spreadRadius: 1,
-          )
-        ],
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.015),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            )
+          ],
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -58,7 +62,7 @@ class CustomActionCard extends StatelessWidget {
           ],
         ],
       ),
-    );
+    ));
   }
 }
 

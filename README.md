@@ -20,4 +20,10 @@ To run this project:
 - Dynamic Hero/Home section layout
 - Integrated notifications and alert systems
 - Custom action cards and floating action buttons
+- **KPI Dashboard:** Intensive visual tracking of metrics, compounds, scanned vehicles, and top locations with charts and target progress.
+- **Staff Movement:** Dynamic UI layout providing interactive map points, movement activity logs, and idle status tracking.
+- **Car Plate Enquiries & Recognition UI:** Car plate reading interface and historical log viewing structure.
+- **Offence & OPN History:** Complete timeline history and detailed record viewer with dummy data integrations.
+- **Settings & Preference Modules:** Advanced profile, policies, app preferences, and support screens.
+- **Thermal Printer & Camera Workflows:** Stub implementations for standard operational flows.
 - Glassmorphism design elements and responsive UI features

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home/home_screen.dart';
+import 'camera/car_plate_recognizer_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -9,7 +10,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
+  final int _currentIndex = 0;
 
   final List<Widget> _screens = [
     const HomeScreen(),
@@ -27,7 +28,11 @@ class _MainScreenState extends State<MainScreen> {
         width: 72,
         height: 72,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const CarPlateRecognizerScreen()),
+            );
+          },
           backgroundColor: const Color(0xFFF5A623),
           shape: const CircleBorder(),
           elevation: 6,
