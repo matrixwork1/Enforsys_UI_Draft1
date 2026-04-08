@@ -26,4 +26,3 @@ To run this project:
 - **Offence & OPN History:** Complete timeline history and detailed record viewer with dummy data integrations.
 - **Settings & Preference Modules:** Advanced profile, policies, app preferences, and support screens.
 - **Thermal Printer & Camera Workflows:** Stub implementations for standard operational flows.
-- Glassmorphism design elements and responsive UI features
