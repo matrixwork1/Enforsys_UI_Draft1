@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/elderly_text_field.dart';
 import '../../widgets/full_screen_image_viewer.dart';
 import 'coupon_detail_screen.dart';
 import 'season_pass_detail_screen.dart';
@@ -173,7 +174,7 @@ class _CarPlateEnquiryScreenState extends State<CarPlateEnquiryScreen>
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: const Color(0xFFE5E7EB)),
                     ),
-                    child: TextField(
+                    child: ElderlyTextField(
                       controller: _searchController,
                       textCapitalization: TextCapitalization.characters,
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),

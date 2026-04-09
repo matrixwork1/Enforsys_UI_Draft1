@@ -22,6 +22,7 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: const Color(0xFFF3F4F6),
       extendBody: true, // Enables true floating layering over body
       body: SafeArea(
+        bottom: false,
         child: _screens[_currentIndex],
       ),
       floatingActionButton: SizedBox(

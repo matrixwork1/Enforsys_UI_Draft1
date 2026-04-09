@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/elderly_text_field.dart';
 import '../../widgets/custom_action_card.dart';
 import '../history/offence_list_screen.dart';
 import '../history/opn_history_screen.dart';
@@ -70,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(height: 8.0),
           _buildRecordSection(),
           // Padding at bottom so records don't hide behind floating FAB completely
-          const SizedBox(height: 80.0),
+          if (MediaQuery.of(context).viewInsets.bottom == 0)
+            const SizedBox(height: 80.0),
         ],
       ),
     );
@@ -184,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(8.0),
               border: Border.all(color: const Color(0xFFE0E0E0)),
             ),
-            child: TextField(
+            child: ElderlyTextField(
               controller: _plateSearchController,
               textCapitalization: TextCapitalization.characters,
               textAlignVertical: TextAlignVertical.center,

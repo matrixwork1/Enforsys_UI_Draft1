@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../offence/new_offence_screen.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class ValidatorRecordScreen extends StatefulWidget {
   const ValidatorRecordScreen({super.key});
@@ -98,7 +99,7 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
                 borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(color: const Color(0xFFE5E7EB)),
               ),
-              child: TextField(
+              child: ElderlyTextField(
                 controller: _searchController,
                 onChanged: (val) {
                   setState(() {

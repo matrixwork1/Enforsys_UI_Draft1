@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class EditPinCodeScreen extends StatefulWidget {
   const EditPinCodeScreen({super.key});
 
@@ -51,12 +52,13 @@ class _EditPinCodeScreenState extends State<EditPinCodeScreen> {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 48),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 48),
               // Top Icon
               Container(
                 width: 140,
@@ -149,6 +151,7 @@ class _EditPinCodeScreenState extends State<EditPinCodeScreen> {
             ],
           ),
         ),
+        ),
       ),
     );
   }
@@ -167,7 +170,7 @@ class _EditPinCodeScreenState extends State<EditPinCodeScreen> {
               controller: _pinController,
               focusNode: _focusNode,
               keyboardType: TextInputType.number,
-              maxLength: 6,
+              maxLines: 1,
               onChanged: (val) {
                 setState(() {}); // trigger rebuild to update pin display
               },

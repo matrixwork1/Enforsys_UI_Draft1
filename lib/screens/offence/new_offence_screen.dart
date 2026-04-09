@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class NewOffenceScreen extends StatefulWidget {
   const NewOffenceScreen({super.key});
@@ -797,7 +798,7 @@ class _NewOffenceScreenState extends State<NewOffenceScreen> {
                     letterSpacing: 0.3,
                   ),
                 ),
-                TextField(
+                ElderlyTextField(
                   controller: controller,
                   maxLines: maxLines,
                   textCapitalization: textCapitalization,

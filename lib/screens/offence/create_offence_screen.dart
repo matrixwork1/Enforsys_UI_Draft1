@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class CreateOffenceScreen extends StatefulWidget {
   const CreateOffenceScreen({super.key});
@@ -95,7 +96,7 @@ class _CreateOffenceScreenState extends State<CreateOffenceScreen> {
   Widget _buildTextField({required String label, required String hint, required TextEditingController controller}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: TextField(
+      child: ElderlyTextField(
         controller: controller,
         decoration: InputDecoration(
           labelText: label,

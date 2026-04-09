@@ -25,4 +25,5 @@ To run this project:
 - **Car Plate Enquiries & Recognition UI:** Car plate reading interface and historical log viewing structure.
 - **Offence & OPN History:** Complete timeline history and detailed record viewer with dummy data integrations.
 - **Settings & Preference Modules:** Advanced profile, policies, app preferences, and support screens.
+- **Elderly Custom Keyboard:** Specialized, large-target dynamic keyboard layout dynamically injected securely over fields for accessibility and visual breathability.
 - **Thermal Printer & Camera Workflows:** Stub implementations for standard operational flows.

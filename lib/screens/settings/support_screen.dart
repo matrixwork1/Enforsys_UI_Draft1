@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({super.key});
@@ -138,10 +139,9 @@ class _SupportScreenState extends State<SupportScreen> {
                   border: Border.all(color: Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: TextField(
+                child: ElderlyTextField(
                   controller: _descriptionController,
                   maxLines: 8,
-                  maxLength: 500,
                   decoration: const InputDecoration(
                     hintText: 'Tell us the problem that you have encountered...',
                     hintStyle: TextStyle(color: Colors.black38),

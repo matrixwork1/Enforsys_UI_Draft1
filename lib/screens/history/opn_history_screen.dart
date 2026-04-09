@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../offence/opn_detail_screen.dart';
 import '../../widgets/full_screen_image_viewer.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class OpnHistoryScreen extends StatefulWidget {
   const OpnHistoryScreen({super.key});
@@ -118,7 +119,7 @@ class _OpnHistoryScreenState extends State<OpnHistoryScreen> {
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(color: const Color(0xFFE5E7EB)),
                     ),
-                    child: TextField(
+                    child: ElderlyTextField(
                       controller: _searchController,
                       onChanged: (val) {
                         setState(() { _searchQuery = val; });

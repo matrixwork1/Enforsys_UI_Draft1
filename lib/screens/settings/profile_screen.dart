@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -356,7 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: const TextStyle(color: Colors.blueGrey, fontSize: 13, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 6),
-        TextFormField(
+        ElderlyTextFormField(
           initialValue: initialValue,
           readOnly: isReadOnly,
           decoration: InputDecoration(

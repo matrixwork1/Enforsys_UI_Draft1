@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../offence/offence_detail_screen.dart';
 import '../../widgets/full_screen_image_viewer.dart';
+import '../../widgets/elderly_text_field.dart';
 
 class OffenceListScreen extends StatefulWidget {
   const OffenceListScreen({super.key});
@@ -118,7 +119,7 @@ class _OffenceListScreenState extends State<OffenceListScreen> {
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(color: const Color(0xFFE5E7EB)),
                     ),
-                    child: TextField(
+                    child: ElderlyTextField(
                       controller: _searchController,
                       onChanged: (val) {
                         setState(() { _searchQuery = val; });
