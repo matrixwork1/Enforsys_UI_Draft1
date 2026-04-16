@@ -14,7 +14,7 @@ import '../kpi/kpi_dashboard_screen.dart';
 import '../staff_movement/staff_movement_screen.dart';
 import '../../models/models.dart';
 import '../../widgets/validator_result_popup.dart';
-import 'package:intl/intl.dart';
+import '../../core/utils/date_format_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final status = statuses[_searchCount % statuses.length];
     _searchCount++;
 
-    final formattedTime = DateFormat('yyyy-MM-dd hh:mm a').format(DateTime.now());
+    final formattedTime = DateFormatUtils.currentTimestamp();
 
     final data = ValidatorResultData(
       plate: text.toUpperCase(),
