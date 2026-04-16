@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import '../../widgets/elderly_text_field.dart';
+import '../../widgets/elderly_keyboard/elderly_text_field.dart';
+import '../../shared/shared.dart';
 
 class NewOffenceScreen extends StatefulWidget {
   const NewOffenceScreen({super.key});
@@ -208,12 +209,12 @@ class _NewOffenceScreenState extends State<NewOffenceScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // ── Photo Evidence Section ──
-                  _buildSectionHeader('Photo Evidence', Icons.camera_alt_outlined),
+                  SectionHeader(title: 'Photo Evidence', icon: Icons.camera_alt_outlined),
                   _buildImageSection(),
                   const SizedBox(height: 20),
 
                   // ── Offence Detail Section ──
-                  _buildSectionHeader('Offence Detail', Icons.description_outlined),
+                  SectionHeader(title: 'Offence Detail', icon: Icons.description_outlined),
                   _buildCard(
                     child: Column(
                       children: [
@@ -283,7 +284,7 @@ class _NewOffenceScreenState extends State<NewOffenceScreen> {
                   const SizedBox(height: 20),
 
                   // ── Fine Amount Section ──
-                  _buildSectionHeader('Fine Amount', Icons.payments_outlined),
+                  SectionHeader(title: 'Fine Amount', icon: Icons.payments_outlined),
                   _buildCard(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
@@ -336,7 +337,7 @@ class _NewOffenceScreenState extends State<NewOffenceScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Row(
                         children: [
-                          _buildSectionHeader('Additional Info', Icons.info_outline),
+                          SectionHeader(title: 'Additional Info', icon: Icons.info_outline),
                           const Spacer(),
                           AnimatedRotation(
                             turns: _additionalInfoExpanded ? 0.5 : 0,
@@ -628,32 +629,7 @@ class _NewOffenceScreenState extends State<NewOffenceScreen> {
   //  HELPER WIDGETS
   // ═══════════════════════════════════════════════════════
 
-  Widget _buildSectionHeader(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF5A623).withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: const Color(0xFFF5A623), size: 16),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF1F2937),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildCard({required Widget child}) {
     return Container(

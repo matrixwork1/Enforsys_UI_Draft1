@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/elderly_keyboard_prefs.dart';
+import '../../widgets/elderly_keyboard/elderly_keyboard_prefs.dart';
 
 class MyPreferenceScreen extends StatefulWidget {
   const MyPreferenceScreen({super.key});

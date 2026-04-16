@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../offence/offence_detail_screen.dart';
 import '../../widgets/full_screen_image_viewer.dart';
-import '../../widgets/elderly_text_field.dart';
+import '../../widgets/elderly_keyboard/elderly_text_field.dart';
 
 class OffenceListScreen extends StatefulWidget {
   const OffenceListScreen({super.key});

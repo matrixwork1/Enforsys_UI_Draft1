@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../widgets/elderly_text_field.dart';
+import '../../widgets/elderly_keyboard/elderly_text_field.dart';
+import '../../shared/shared.dart';
 import '../../widgets/full_screen_image_viewer.dart';
 import 'coupon_detail_screen.dart';
 import 'season_pass_detail_screen.dart';
@@ -322,30 +323,6 @@ class _CarPlateEnquiryScreenState extends State<CarPlateEnquiryScreen>
     );
   }
 
-  // ─── Status Chip ──────────────────────────────────────────────
-
-  Widget _buildStatusChip(String status) {
-    final bool isPositive = status == 'Active' || status == 'Paid';
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: isPositive ? const Color(0xFFECFDF5) : const Color(0xFFFEF2F2),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444),
-          width: 0.5,
-        ),
-      ),
-      child: Text(
-        status,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: isPositive ? const Color(0xFF059669) : const Color(0xFFDC2626),
-        ),
-      ),
-    );
-  }
 
   // ─── Parking Tab ──────────────────────────────────────────────
 
@@ -411,7 +388,7 @@ class _CarPlateEnquiryScreenState extends State<CarPlateEnquiryScreen>
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    _buildStatusChip(item['status']),
+                    StatusChip(status: item['status']),
                     const SizedBox(height: 8),
                     Text(
                       item['amount'],
@@ -486,7 +463,7 @@ class _CarPlateEnquiryScreenState extends State<CarPlateEnquiryScreen>
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    _buildStatusChip(item['status']),
+                    StatusChip(status: item['status']),
                     const SizedBox(height: 8),
                     Text(
                       item['amount'],
@@ -610,7 +587,7 @@ class _CarPlateEnquiryScreenState extends State<CarPlateEnquiryScreen>
                     ],
                   ),
                 ),
-                _buildStatusChip(item['status']),
+                StatusChip(status: item['status']),
               ],
             ),
           ),
@@ -754,7 +731,7 @@ class _CarPlateEnquiryScreenState extends State<CarPlateEnquiryScreen>
                     ],
                   ),
                 ),
-                _buildStatusChip(item['status']),
+                StatusChip(status: item['status']),
               ],
             ),
           ),

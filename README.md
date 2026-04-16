@@ -27,3 +27,12 @@ To run this project:
 - **Settings & Preference Modules:** Advanced profile, policies, app preferences, and support screens.
 - **Elderly Custom Keyboard:** Specialized, large-target dynamic keyboard layout dynamically injected securely over fields for accessibility and visual breathability.
 - **Thermal Printer & Camera Workflows:** Stub implementations for standard operational flows.
+
+## Architecture
+
+The project structure has been refactored for scalability:
+- **core**: Contains application themes, colors, and utility files.
+- **models**: Standalone data models to prevent circular dependencies.
+- **shared**: Reusable UI components like Action Cards, Status Chips, and Section Headers.
+- **widgets**: Contains standalone logical widgets like the custom Elderly Keyboard toolset and dialog bottom-sheets.
+- **screens**: Screen layouts referencing the shared logic.

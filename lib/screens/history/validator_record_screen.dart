@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import '../offence/new_offence_screen.dart';
-import '../../widgets/elderly_text_field.dart';
+import '../../widgets/elderly_keyboard/elderly_text_field.dart';
+import '../../widgets/full_screen_image_viewer.dart';
+import '../../widgets/validator_result_popup.dart';
+import '../../widgets/create_opn_popup.dart';
+import '../../models/models.dart';
 
 class ValidatorRecordScreen extends StatefulWidget {
   const ValidatorRecordScreen({super.key});
@@ -15,44 +19,49 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
 
   final List<Map<String, String>> _allRecords = [
     {
-      'plate': 'QAX3967',
+      'plate': 'QAA9677P',
       'distance': '62 m',
       'permitStatus': 'No Parking Permit Found',
       'hasPermit': 'false',
+      'statusKey': 'noPermitFound',
       'loc': 'Jalan Pedada',
-      'time': '2026-03-30, 10:51 AM'
+      'time': '2026-04-16, 8:26 AM'
     },
     {
-      'plate': 'QAX3967',
+      'plate': 'QLB2927',
       'distance': '106 m',
-      'permitStatus': 'No Parking Permit Found',
-      'hasPermit': 'false',
+      'permitStatus': 'Active User Coupon',
+      'hasPermit': 'true',
+      'statusKey': 'activeUserCoupon',
       'loc': 'Jalan Pedada',
-      'time': '2026-03-30, 10:48 AM'
+      'time': '2026-04-16, 8:26 AM'
     },
     {
-      'plate': 'QM1Q',
+      'plate': 'QS8852L',
       'distance': '20 m',
-      'permitStatus': 'No Parking Permit Found',
+      'permitStatus': 'Compound Issued',
       'hasPermit': 'false',
+      'statusKey': 'compoundIssued',
       'loc': 'Jalan Pedada',
-      'time': '2026-03-30, 10:46 AM'
+      'time': '2026-04-16, 8:25 AM'
     },
     {
-      'plate': 'QM1O',
+      'plate': 'QSJ1831',
       'distance': '20 m',
-      'permitStatus': 'No Parking Permit Found',
-      'hasPermit': 'false',
+      'permitStatus': 'Active Season Pass',
+      'hasPermit': 'true',
+      'statusKey': 'activeSeasonPass',
       'loc': 'Jalan Pedada',
-      'time': '2026-03-30, 10:45 AM'
+      'time': '2026-04-16, 8:13 AM'
     },
     {
-      'plate': 'VJK1992',
+      'plate': 'SWQ2003',
       'distance': '106 m',
-      'permitStatus': 'No Parking Permit Found',
+      'permitStatus': 'OPN Found',
       'hasPermit': 'false',
+      'statusKey': 'opnFound',
       'loc': 'Jalan Pedada',
-      'time': '2026-03-30, 10:40 AM'
+      'time': '2026-04-16, 8:10 AM'
     },
   ];
 
@@ -61,6 +70,33 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
     return _allRecords.where((item) {
       return item['plate']!.toLowerCase().contains(_searchQuery.toLowerCase());
     }).toList();
+  }
+
+  ValidatorStatus _parseStatus(String key) {
+    switch (key) {
+      case 'activeUserCoupon':
+        return ValidatorStatus.activeUserCoupon;
+      case 'activeSeasonPass':
+        return ValidatorStatus.activeSeasonPass;
+      case 'compoundIssued':
+        return ValidatorStatus.compoundIssued;
+      case 'opnFound':
+        return ValidatorStatus.opnFound;
+      case 'noPermitFound':
+      default:
+        return ValidatorStatus.noPermitFound;
+    }
+  }
+
+  void _showResultPopup(Map<String, String> item, int index) {
+    final data = ValidatorResultData(
+      plate: item['plate']!,
+      parkingArea: item['loc']!,
+      checkedAt: item['time']!,
+      imageUrl: 'https://loremflickr.com/400/300/car?lock=${item['plate'].hashCode + index}',
+      status: _parseStatus(item['statusKey'] ?? 'noPermitFound'),
+    );
+    showValidatorResultPopup(context, data);
   }
 
   @override
@@ -142,16 +178,18 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 final item = filteredList[index];
-                final isNoPermit = item['hasPermit'] == 'false';
+                final statusKey = item['statusKey'] ?? 'noPermitFound';
+                final isPositive = statusKey == 'activeUserCoupon' || statusKey == 'activeSeasonPass';
                 
                 return _buildValidatorRecordCard(
                   plate: item['plate']!,
                   distance: item['distance']!,
                   permitStatus: item['permitStatus']!,
-                  isNoPermit: isNoPermit,
+                  isNoPermit: !isPositive,
                   location: item['loc']!,
                   time: item['time']!,
                   index: index,
+                  item: item,
                 );
               },
             ),
@@ -169,7 +207,10 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
     required String location,
     required String time,
     required int index,
+    required Map<String, String> item,
   }) {
+    final imageUrl = 'https://loremflickr.com/100/100/car?lock=${plate.hashCode + index}';
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
@@ -188,73 +229,92 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Left content side
+            // Left content side — tappable to open popup
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Network Thumbnail Image
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            'https://loremflickr.com/100/100/car?lock=${plate.hashCode + index}',
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              width: 80,
-                              height: 80,
-                              color: const Color(0xFFE5E7EB),
-                              child: const Icon(Icons.directions_car, color: Color(0xFF9CA3AF), size: 36),
+              child: GestureDetector(
+                onTap: () => _showResultPopup(item, index),
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Network Thumbnail Image — tappable to expand
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => FullScreenImageViewer(
+                                imageUrl: 'https://loremflickr.com/400/300/car?lock=${plate.hashCode + index}',
+                                heroTag: 'validator_thumb_${plate}_$index',
+                              ),
                             ),
-                          ),
-                        ),
-                        // Expand Icon Overlay
-                        Positioned(
-                          top: 4,
-                          right: 4,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.5),
-                              shape: BoxShape.circle,
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            Hero(
+                              tag: 'validator_thumb_${plate}_$index',
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  imageUrl,
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => Container(
+                                    width: 80,
+                                    height: 80,
+                                    color: const Color(0xFFE5E7EB),
+                                    child: const Icon(Icons.directions_car, color: Color(0xFF9CA3AF), size: 36),
+                                  ),
+                                ),
+                              ),
                             ),
-                            child: const Icon(Icons.open_in_full, size: 12, color: Colors.white),
-                          ),
+                            // Expand Icon Overlay
+                            Positioned(
+                              top: 4,
+                              right: 4,
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withValues(alpha: 0.5),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.open_in_full, size: 12, color: Colors.white),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    const SizedBox(width: 12.0),
-                    // Information Column
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            plate,
-                            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
-                          const SizedBox(height: 6.0),
-                          _buildInfoRow(Icons.directions_walk, distance, color: Colors.black87),
-                          const SizedBox(height: 4.0),
-                          _buildInfoRow(
-                            isNoPermit ? Icons.cancel : Icons.check_circle, 
-                            permitStatus, 
-                            color: isNoPermit ? const Color(0xFFEF4444) : const Color(0xFF10B981),
-                            isBoldIcon: true,
-                          ),
-                          const SizedBox(height: 4.0),
-                          _buildInfoRow(Icons.location_on, location, color: Colors.black87),
-                          const SizedBox(height: 4.0),
-                          _buildInfoRow(Icons.access_time, time, color: Colors.black87),
-                        ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 12.0),
+                      // Information Column
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              plate,
+                              style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black),
+                            ),
+                            const SizedBox(height: 6.0),
+                            _buildInfoRow(Icons.directions_walk, distance, color: Colors.black87),
+                            const SizedBox(height: 4.0),
+                            _buildInfoRow(
+                              _getPermitIcon(item['statusKey'] ?? 'noPermitFound'),
+                              permitStatus, 
+                              color: _getPermitColor(item['statusKey'] ?? 'noPermitFound'),
+                              isBoldIcon: true,
+                            ),
+                            const SizedBox(height: 4.0),
+                            _buildInfoRow(Icons.location_on, location, color: Colors.black87),
+                            const SizedBox(height: 4.0),
+                            _buildInfoRow(Icons.access_time, time, color: Colors.black87),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -270,9 +330,18 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const NewOffenceScreen()),
-                        );
+                        final statusKey = item['statusKey'] ?? 'noPermitFound';
+                        if (statusKey == 'compoundIssued') {
+                          // Compound already issued — show result popup instead
+                          _showResultPopup(item, index);
+                        } else if (statusKey == 'opnFound') {
+                          // OPN Found — show create OPN popup
+                          showCreateOpnPopup(context, plateNumber: plate);
+                        } else {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => const NewOffenceScreen()),
+                          );
+                        }
                       },
                       borderRadius: const BorderRadius.only(topRight: Radius.circular(12)),
                       child: const Center(
@@ -297,6 +366,36 @@ class _ValidatorRecordScreenState extends State<ValidatorRecordScreen> {
         ),
       ),
     );
+  }
+
+  IconData _getPermitIcon(String statusKey) {
+    switch (statusKey) {
+      case 'activeUserCoupon':
+      case 'activeSeasonPass':
+        return Icons.check_circle;
+      case 'compoundIssued':
+        return Icons.warning_rounded;
+      case 'opnFound':
+        return Icons.notifications_active;
+      case 'noPermitFound':
+      default:
+        return Icons.cancel;
+    }
+  }
+
+  Color _getPermitColor(String statusKey) {
+    switch (statusKey) {
+      case 'activeUserCoupon':
+      case 'activeSeasonPass':
+        return const Color(0xFF10B981);
+      case 'compoundIssued':
+        return const Color(0xFFF59E0B);
+      case 'opnFound':
+        return const Color(0xFFEF4444);
+      case 'noPermitFound':
+      default:
+        return const Color(0xFFEF4444);
+    }
   }
 
   Widget _buildInfoRow(IconData icon, String text, {required Color color, bool isBoldIcon = false}) {
