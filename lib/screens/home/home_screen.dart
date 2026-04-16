@@ -12,6 +12,9 @@ import '../offence/offence_detail_screen.dart';
 import '../enquiry/car_plate_enquiry_screen.dart';
 import '../kpi/kpi_dashboard_screen.dart';
 import '../staff_movement/staff_movement_screen.dart';
+import '../../models/models.dart';
+import '../../widgets/validator_result_popup.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isShowingOffence = true;
+  int _searchCount = 0;
   final TextEditingController _plateSearchController = TextEditingController();
 
   @override
@@ -235,11 +239,23 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
     FocusScope.of(context).unfocus();
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CarPlateEnquiryScreen(plateNumber: text.toUpperCase()),
-      ),
+    
+    // Cycle through statuses for demonstration
+    final statuses = ValidatorStatus.values;
+    final status = statuses[_searchCount % statuses.length];
+    _searchCount++;
+
+    final formattedTime = DateFormat('yyyy-MM-dd hh:mm a').format(DateTime.now());
+
+    final data = ValidatorResultData(
+      plate: text.toUpperCase(),
+      parkingArea: 'Dewan Suarah',
+      checkedAt: formattedTime,
+      imageUrl: 'https://loremflickr.com/400/400/car?lock=$_searchCount',
+      status: status,
     );
+
+    showValidatorResultPopup(context, data);
   }
 
   Widget _buildActionRow(BuildContext context) {
