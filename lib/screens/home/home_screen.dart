@@ -15,7 +15,7 @@ import '../staff_movement/staff_movement_screen.dart';
 import '../../models/models.dart';
 import '../../widgets/validator_result_popup.dart';
 import '../../core/utils/date_format_utils.dart';
-
+import '../../shared/shared.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -35,24 +35,28 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _buildTopIconWithBadge(Icons.notifications_none, onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const NotificationScreen()),
-                );
-              }),
-              const SizedBox(width: 16.0),
-              _buildTopIconWithBadge(
-                Icons.settings_outlined,
-                onTap: () {
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                const LanguageDropdown(),
+                const Spacer(),
+                _buildTopIconWithBadge(Icons.notifications_none, onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                    MaterialPageRoute(builder: (context) => const NotificationScreen()),
                   );
-                },
-              ),
-            ],
+                }),
+                const SizedBox(width: 16.0),
+                _buildTopIconWithBadge(
+                  Icons.settings_outlined,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 12.0),
           _buildHeader(),

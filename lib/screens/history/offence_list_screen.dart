@@ -39,7 +39,7 @@ class _OffenceListScreenState extends State<OffenceListScreen> {
       builder: (context, child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: const ColorScheme.light(primary: Colors.teal),
+            colorScheme: const ColorScheme.light(primary: Color(0xFFF5A623)),
           ),
           child: child!,
         );

@@ -239,7 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(color: Colors.grey, fontSize: 14),
               ),
             ),
-            const Icon(Icons.check_circle, color: Colors.teal, size: 20),
+            const Icon(Icons.check_circle, color: Color(0xFFF5A623), size: 20),
             const SizedBox(width: 8),
             Text(
               _status,

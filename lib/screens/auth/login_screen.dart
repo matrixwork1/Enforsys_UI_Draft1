@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../main_screen.dart';
-
+import '../../shared/shared.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -29,7 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 32),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  LanguageDropdown(),
+                ],
+              ),
+              const SizedBox(height: 16),
               // Clean Header
               Center(
                 child: Container(
