@@ -6,21 +6,27 @@ import '../enforcement_heatmap_data.dart';
 /// Styled to match CompoundsPage filter patterns (solid-fill chips,
 /// prominent borders, proper height).
 class HeatmapFilterBar extends StatelessWidget {
+  final bool isZoneView;
   final String? selectedLocation;
   final ValueChanged<String?> onLocationChanged;
   final DateTime selectedDate;
   final ValueChanged<DateTime> onDateChanged;
   final Set<PlateStatus> activeStatusFilters;
   final ValueChanged<PlateStatus> onStatusToggled;
+  final Set<ZoneSeverity> activeZoneFilters;
+  final ValueChanged<ZoneSeverity> onZoneFilterToggled;
 
   const HeatmapFilterBar({
     super.key,
+    required this.isZoneView,
     required this.selectedLocation,
     required this.onLocationChanged,
     required this.selectedDate,
     required this.onDateChanged,
     required this.activeStatusFilters,
     required this.onStatusToggled,
+    required this.activeZoneFilters,
+    required this.onZoneFilterToggled,
   });
 
   @override
@@ -110,45 +116,90 @@ class HeatmapFilterBar extends StatelessWidget {
         ),
         const SizedBox(height: 8),
 
-        // Row 2: Status filter chips — solid fill like CompoundsPage _FilterChip
+        // Row 2: Dynamic filter chips (Zone vs Marker)
         SizedBox(
           width: double.infinity,
           child: Wrap(
             spacing: 6,
             runSpacing: 6,
-            children: PlateStatus.values.map((status) {
-              final isActive = activeStatusFilters.contains(status);
-              final color = plateStatusColor(status);
-              return GestureDetector(
-                onTap: () => onStatusToggled(status),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: isActive ? color : Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: isActive ? color : const Color(0xFFE5E7EB),
-                      width: 1,
-                    ),
-                  ),
-                  child: Text(
-                    _shortLabel(status),
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: isActive
-                          ? Colors.white
-                          : const Color(0xFF6B7280),
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
+            children: isZoneView ? _buildZoneFilters() : _buildMarkerFilters(),
           ),
         ),
       ],
     );
+  }
+
+  List<Widget> _buildMarkerFilters() {
+    return PlateStatus.values.map((status) {
+      final isActive = activeStatusFilters.contains(status);
+      final color = plateStatusColor(status);
+      return GestureDetector(
+        onTap: () => onStatusToggled(status),
+        child: Container(
+          padding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isActive ? color : Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isActive ? color : const Color(0xFFE5E7EB),
+              width: 1,
+            ),
+          ),
+          child: Text(
+            _shortLabel(status),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: isActive ? Colors.white : const Color(0xFF6B7280),
+            ),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  List<Widget> _buildZoneFilters() {
+    return ZoneSeverity.values.map((severity) {
+      final isActive = activeZoneFilters.contains(severity);
+      final color = zoneSeverityColor(severity);
+      return GestureDetector(
+        onTap: () => onZoneFilterToggled(severity),
+        child: Container(
+          padding:
+              const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isActive ? color : Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isActive ? color : const Color(0xFFE5E7EB),
+              width: 1,
+            ),
+          ),
+          child: Text(
+            _severityLabel(severity),
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: isActive ? Colors.white : const Color(0xFF6B7280),
+            ),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  String _severityLabel(ZoneSeverity severity) {
+    switch (severity) {
+      case ZoneSeverity.clear:
+        return 'Clear';
+      case ZoneSeverity.moderate:
+        return 'Moderate';
+      case ZoneSeverity.high:
+        return 'High';
+      case ZoneSeverity.critical:
+        return 'Critical';
+    }
   }
 
   Future<void> _pickDate(BuildContext context) async {

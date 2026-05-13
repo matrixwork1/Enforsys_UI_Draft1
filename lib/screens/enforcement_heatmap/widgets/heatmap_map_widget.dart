@@ -8,6 +8,7 @@ class HeatmapMapWidget extends StatelessWidget {
   final List<EnforcementZone> zones;
   final bool showZones; // true = polygon view, false = marker view
   final Set<PlateStatus> activeStatusFilters;
+  final Set<ZoneSeverity> activeZoneFilters;
   final int? selectedZoneIndex;
   final int? selectedMarkerZoneIdx;
   final int? selectedMarkerPlateIdx;
@@ -19,6 +20,7 @@ class HeatmapMapWidget extends StatelessWidget {
     required this.zones,
     required this.showZones,
     required this.activeStatusFilters,
+    required this.activeZoneFilters,
     this.selectedZoneIndex,
     this.selectedMarkerZoneIdx,
     this.selectedMarkerPlateIdx,
@@ -45,6 +47,7 @@ class HeatmapMapWidget extends StatelessWidget {
               zones: zones,
               showZones: showZones,
               activeStatusFilters: activeStatusFilters,
+              activeZoneFilters: activeZoneFilters,
               selectedZoneIndex: selectedZoneIndex,
               selectedMarkerZoneIdx: selectedMarkerZoneIdx,
               selectedMarkerPlateIdx: selectedMarkerPlateIdx,
@@ -66,6 +69,7 @@ class HeatmapMapWidget extends StatelessWidget {
     if (showZones) {
       // Find which zone polygon contains the tap
       for (int i = 0; i < zones.length; i++) {
+        if (!activeZoneFilters.contains(zones[i].severity)) continue;
         if (_pointInPolygon(Offset(normX, normY), zones[i].polygonPoints)) {
           onZoneTap?.call(i);
           return;
@@ -117,6 +121,7 @@ class _HeatmapPainter extends CustomPainter {
   final List<EnforcementZone> zones;
   final bool showZones;
   final Set<PlateStatus> activeStatusFilters;
+  final Set<ZoneSeverity> activeZoneFilters;
   final int? selectedZoneIndex;
   final int? selectedMarkerZoneIdx;
   final int? selectedMarkerPlateIdx;
@@ -125,6 +130,7 @@ class _HeatmapPainter extends CustomPainter {
     required this.zones,
     required this.showZones,
     required this.activeStatusFilters,
+    required this.activeZoneFilters,
     this.selectedZoneIndex,
     this.selectedMarkerZoneIdx,
     this.selectedMarkerPlateIdx,
@@ -194,6 +200,8 @@ class _HeatmapPainter extends CustomPainter {
   void _drawZones(Canvas canvas, Size size) {
     for (int i = 0; i < zones.length; i++) {
       final zone = zones[i];
+      if (!activeZoneFilters.contains(zone.severity)) continue;
+      
       final color = zoneSeverityColor(zone.severity);
       final opacity = zoneSeverityOpacity(zone.severity);
       final isSelected = selectedZoneIndex == i;

@@ -27,6 +27,7 @@ class _EnforcementHeatmapScreenState extends State<EnforcementHeatmapScreen> {
   String? _selectedLocation;
   DateTime _selectedDate = DateTime.now();
   final Set<PlateStatus> _activeStatusFilters = PlateStatus.values.toSet();
+  final Set<ZoneSeverity> _activeZoneFilters = ZoneSeverity.values.toSet();
   int? _selectedZoneIndex;
   int? _selectedMarkerZoneIdx;
   int? _selectedMarkerPlateIdx;
@@ -147,6 +148,7 @@ class _EnforcementHeatmapScreenState extends State<EnforcementHeatmapScreen> {
 
             // ── Filters ─────────────────────────────────────────
             HeatmapFilterBar(
+              isZoneView: _isZoneView,
               selectedLocation: _selectedLocation,
               onLocationChanged: (v) => setState(() {
                 _selectedLocation = v;
@@ -165,6 +167,16 @@ class _EnforcementHeatmapScreenState extends State<EnforcementHeatmapScreen> {
                   }
                 } else {
                   _activeStatusFilters.add(status);
+                }
+              }),
+              activeZoneFilters: _activeZoneFilters,
+              onZoneFilterToggled: (severity) => setState(() {
+                if (_activeZoneFilters.contains(severity)) {
+                  if (_activeZoneFilters.length > 1) {
+                    _activeZoneFilters.remove(severity);
+                  }
+                } else {
+                  _activeZoneFilters.add(severity);
                 }
               }),
             ),
@@ -187,6 +199,7 @@ class _EnforcementHeatmapScreenState extends State<EnforcementHeatmapScreen> {
               zones: filteredZones,
               showZones: _isZoneView,
               activeStatusFilters: _activeStatusFilters,
+              activeZoneFilters: _activeZoneFilters,
               selectedZoneIndex: _selectedZoneIndex,
               selectedMarkerZoneIdx: _selectedMarkerZoneIdx,
               selectedMarkerPlateIdx: _selectedMarkerPlateIdx,
