@@ -9,9 +9,9 @@ import '../settings/settings_screen.dart';
 import '../printer/thermal_printer_screen.dart';
 import '../offence/opn_detail_screen.dart';
 import '../offence/offence_detail_screen.dart';
-import '../enquiry/car_plate_enquiry_screen.dart';
 import '../kpi/kpi_dashboard_screen.dart';
 import '../staff_movement/staff_movement_screen.dart';
+import '../enforcement_heatmap/enforcement_heatmap_screen.dart';
 import '../../models/models.dart';
 import '../../widgets/validator_result_popup.dart';
 import '../../core/utils/date_format_utils.dart';
@@ -351,8 +351,28 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(width: 8.0),
-          // Empty spacer to keep 3-column grid alignment
-          const Expanded(child: SizedBox()),
+          Expanded(
+            child: CustomActionCard(
+              icon: const Stack(
+                alignment: Alignment.center,
+                children: [
+                  Icon(Icons.map_outlined, size: 36, color: Colors.black),
+                  Positioned(
+                    bottom: 0,
+                    right: -4,
+                    child: Icon(Icons.local_fire_department, size: 20, color: Color(0xFFF5A623)),
+                  ),
+                ],
+              ),
+              title: 'Enforcement\nHeatmap',
+              subtitle: 'Zone analytics',
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const EnforcementHeatmapScreen()),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

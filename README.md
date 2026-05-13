@@ -31,6 +31,7 @@ To run this project:
 13. Live Tracker Time Logic: Staff movement statuses (Active, Warning, Critical, Lunch, Off-Duty) are dynamically calculated against the device's real-time clock, including an automatic Lunch status from 12:00 PM to 1:00 PM.
 14. Cross-Device UI Stability: Fixed rendering bugs on Wide-Color Gamut displays by ensuring map dots use strict color matching and adding a permanent, color-coded left accent strip to Staff Cards.
 15. Map Tracker Enhancements: Replaced the swipe-to-change location filter with a standard dropdown menu and added a clearly styled "Today's Date" header above the map.
+16. Enforcement Heatmap Module: Dynamic geospatial mapping module visualising plate densities, grouped by area with non-rectangular polygon zones. Status filters adaptively scale across the top, while an interactive bottom sheet displays precise violation coordinates and warden checks.
 
 ## Architecture
 
